@@ -1,16 +1,17 @@
 import React, { Suspense, lazy } from 'react';
-import { Container, Typography, CircularProgress } from '@mui/material';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { Container, CircularProgress } from '@mui/material';
 import ArtistContextProvider from './context/ArtistContext';
 import FavoritesButton from './components/FavoritesButton';
-import PageTitle from './components/PageTitle';
+import Header from './components/Header';
 
-const LazyArtistList = lazy(() => import('./components/ArtistList'));
+const LazyGenreView = lazy(() => import('./views/GenreView'));
+const LazyArtistDetailView = lazy(() => import('./views/ArtistDetailsView'));
+const LazyFavoritesView = lazy(() => import('./views/FavoritesView'));
+
 const LazySearchBar = lazy(() => import('./components/SearchBar'));
 
-const title = 'GenreGaze';
-const logo = "./assets/images/genreGaze-icon.png";
-
-const spinnerStyles: React.CSSProperties = {
+const spinnerStyles = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -20,17 +21,22 @@ const spinnerStyles: React.CSSProperties = {
 const App: React.FC = () => {
   return (
     <ArtistContextProvider>
-      <Container sx={{ pt: 8 }} id="root">
-        <Typography variant="h2" gutterBottom>
-          {title} <img alt="GenreGaze logo" width="70px" height="auto" src={logo} />
-        </Typography>
-        <Suspense fallback={<div style={spinnerStyles}><CircularProgress /></div>}>
-          <LazySearchBar />
-          <FavoritesButton />
-          <PageTitle />
-          <LazyArtistList />
-        </Suspense>
-      </Container>
+      <Router>
+        <Header />
+        <Container sx={{ pt: 8 }} id="root">
+          <Suspense fallback={<div style={spinnerStyles}><CircularProgress /></div>}>
+            <LazySearchBar />
+            <FavoritesButton />
+            <Switch>
+              <Route path="/genres" render={() => <LazyGenreView />} />
+              <Route path="/artist-detail/:id" render={() => <LazyArtistDetailView />} />
+              <Route path="/favorites" render={() => <LazyFavoritesView />} />
+              <Redirect exact from="/" to="/genres" />
+              {/* Add a default route or a 404 page here */}
+            </Switch> 
+          </Suspense>
+        </Container>
+      </Router>
     </ArtistContextProvider>
   );
 };
