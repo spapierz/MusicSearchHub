@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import { ArtistContext } from '../context/ArtistContext';
+import { MusicContext } from '../context/MusicContext';
 import { Typography } from '@mui/material';
 
 export const PageTitle: React.FC = () => {
-  const { pageTitle } = useContext(ArtistContext);
+  const { pageTitle } = useContext(MusicContext);
 
   return (
     <Typography variant="subtitle1" color="textSecondary" sx={{ fontWeight: 500 }}>
