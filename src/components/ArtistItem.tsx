@@ -9,7 +9,7 @@ interface MusicItemProps {
   artist: Artist;
 }
 
-const logo = "./images/genreGaze-logo.png";
+const logo = "/images/genreGaze-logo.png";
 
 export const ArtistItem: React.FC<MusicItemProps> = ({ artist }) => {
   const [isFavorite, setIsFavorite] = useState(false);
@@ -56,20 +56,21 @@ export const ArtistItem: React.FC<MusicItemProps> = ({ artist }) => {
         <IconButton onClick={handleToggleFavorite} aria-label={isFavorite ? 'favorited star icon' : 'not yet favorited star icon'}>
           {isFavorite ? 
             <Star style={{
-                color: 'white',
-                fontSize: '24px',
-                border: '2px solid white',
-                borderRadius: '50%',
-                padding: '5px'
-              }}
+              color: 'white',
+              fontSize: '24px',
+              border: '2px solid white',
+              borderRadius: '50%',
+              padding: '5px'
+            }}
             /> :
             <StarBorder style={{
-                color: 'white',
-                fontSize: '24px',
-                border: '2px solid white',
-                borderRadius: '50%',
-                padding: '5px'
-              }} />}
+              color: 'white',
+              fontSize: '24px',
+              border: '2px solid white',
+              borderRadius: '50%',
+              padding: '5px'
+            }} />
+          }
         </IconButton>
       </div>
       <div style={{
