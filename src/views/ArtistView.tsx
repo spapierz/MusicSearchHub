@@ -1,36 +1,36 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { MusicContext } from '../context/MusicContext';
 import ArtistItem from '../components/ArtistItem';
-import { Artist } from '../interfaces/Music';
 
 const ArtistView: React.FC = () => {
-    const { artist, setArtist, fetchArtists, fetchArtistDetails } = useContext(MusicContext);
-    const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>();
+  const { fetchArtists, setArtist, artist } = useContext(MusicContext);
+  const [isDataFetched, setIsDataFetched] = useState(false);
 
-    useEffect(() => {
-        const fetchArtists = async () => {
-            try {
-                const artistResponse = await fetchArtistDetails(`/genres`, id, 'artists') as Artist[];
-                setArtist(artistResponse);
-            } catch (error) {
-                console.error('Error fetching artists:', error);
-            }
-        };
-        
-        fetchArtists();
-    }, []);
+  useEffect(() => {
+    const fetchArtistData = async () => {
+      try {
+        const artistResponse = await fetchArtists('/genres', id);
+        setArtist(artistResponse);
+        setIsDataFetched(true);
+      } catch (error) {
+        console.error('Error fetching artists:', error);
+      }
+    };
+    fetchArtistData();
+  }, [id]);
 
-    return (
-        <Grid container spacing={3} sx={{ mt: 0 }} role="list">
-            {artist.map((artistItem) => (
-                <Grid item xs={5} sm={3} md={2} key={artistItem.id} role="listitem">
-                    <ArtistItem artist={artistItem} />
-                </Grid>
-            ))}
+  return (
+    <Grid container spacing={3} sx={{ mt: 0 }} role="list">
+      {artist.map((artistItem) => (
+        <Grid item xs={5} sm={3} md={2} key={artistItem.id} role="listitem">
+          <ArtistItem artist={artistItem} />
         </Grid>
-    );
+      ))}
+    </Grid>
+  );
 };
 
 export default ArtistView;

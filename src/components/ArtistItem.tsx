@@ -31,7 +31,7 @@ export const ArtistItem: React.FC<MusicItemProps> = ({ artist }) => {
   };
 
   const handleImageClick = () => {
-    history.push(`/api/v1/music/artists/${artist.id}`);
+    history.push(`/artist-details/${artist.id}`);
   };
 
   return (

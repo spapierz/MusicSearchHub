@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Artist, Genre, MusicContextData } from '../interfaces/Music';
 
 interface MusicContextProviderProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 export const MusicContext = createContext<MusicContextData>({} as MusicContextData);
@@ -11,7 +11,7 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
   const MusicContextProvider: React.FC<MusicContextProviderProps> = ({ children }) => {
   const [favorites, setFavorites] = useState<Artist[]>([]);
   const [isFavoritesPage, setIsFavoritesPage] = useState(false);
-  const [pageTitle, setPageTitle] = useState('');
+  const [pageTitle, setPageTitle] = useState('Enter a genre to find artists');
   const [searchQuery, setSearchQuery] = useState('');
   const [genres, setGenres] = useState<Genre[]>([]);
   const [artist, setArtist] = useState<Artist[]>([]);
@@ -20,23 +20,23 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
   const API_KEY = '5db48e1f3a0a4580bad47849f1317bd0';
   
   const fetchGenres = async (currentPath: string, query: string): Promise<Genre[]> => {
-    const url = `${API_BASE_URL}${currentPath}?q=${query}`;
+    const url = `${API_BASE_URL}/genres?q=${query}`;
     const response = await axios.get(url, {
-        params: {
-            apikey: API_KEY,
-        },
+      params: {
+          apikey: API_KEY,
+      },
     });
     const { data: { data } } = response;
     if (data?.length) {
-        setGenres(data as Genre[]);
-        if (query) {
-            setSearchQuery(query);
-        }
+      setGenres(data as Genre[]);
+      if (query) {
+          setSearchQuery(query);
+      }
     } else {
-        setSearchQuery('');
+      setSearchQuery('');
     }
     if (!response.data || !response.data.data) {
-        throw new Error('Error connecting to the API');
+      throw new Error('Error connecting to the API');
     }
     return data as Genre[];
   };
@@ -44,7 +44,6 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
   const fetchArtists = async (
     currentPath: string,
     id: string,
-    subFilter: string
   ): Promise<Artist[]> => {
     const url = `${API_BASE_URL}${currentPath}/${id}/artists`;
     const response = await axios.get(url, {
@@ -57,8 +56,8 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
     const { data: { data } } = response;
 
     if (data?.length) {
-        setArtist(data as Artist[]);
-        setGenres([]); // Reset genres when fetching artists
+      setArtist(data as Artist[]);
+      setGenres(genres as Genre[]); // Reset genres when fetching artists
     }
     if (!response.data || !response.data.data) {
         throw new Error('Error connecting to the API');
@@ -67,39 +66,32 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
   };
 
   const fetchArtistDetails = async (
-    currentPath: string,
     id?: string,
-    subFilter?: string
   ): Promise<Artist[]> => {
-      const url = `${API_BASE_URL}${currentPath}/${id}/${subFilter}`;
+      const url = `${API_BASE_URL}/artists/${id}`;
       const response = await axios.get(url, {
           params: {
               apikey: API_KEY,
-          },
+          },  
       });
       const { data: { data } } = response;
       if (data?.length) {
-          setArtist(data as Artist[]);
-          setGenres([]); // Reset genres when fetching artist details
+        setArtist(data as Artist[]);
+        setGenres([]); // Reset genres when fetching artist details
       }
       if (!response.data || !response.data.data) {
-          throw new Error('Error connecting to the API');
+        throw new Error('Error connecting to the API');
       }
       return data as Artist[];
   };
 
   const addToFavorites = useCallback((artist: Artist) => {
-      setFavorites(prevFavorites => [...prevFavorites, artist]);
+    setFavorites(prevFavorites => [...prevFavorites, artist]);
   }, [setFavorites]);
 
   const removeFromFavorites = useCallback((id: string) => {
-      setFavorites(prevFavorites => prevFavorites.filter(artist => artist.id !== id));
+    setFavorites(prevFavorites => prevFavorites.filter(artist => artist.id !== id));
   }, [setFavorites]);
-
-  useEffect(() => {
-      setPageTitle('Home');
-      console.log(artist)
-  }, []);
 
   const contextValue = useMemo<MusicContextData>(
       () => ({

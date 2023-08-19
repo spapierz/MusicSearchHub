@@ -15,16 +15,16 @@ export interface Genre {
 
 export interface MusicContextData {
     artist: Artist[];
-    setArtist: React.Dispatch<React.SetStateAction<Artist[]>>;
     genres: Genre[];
-    setGenres: React.Dispatch<React.SetStateAction<Genre[]>>;
     pageTitle: string;
-    fetchGenres: (currentPath: string, query: string) => Promise<Genre[]>;
-    fetchArtists: (currentPath: string, id: string, subFilter: string) => Promise<Artist[]>;
-    fetchArtistDetails: (currentPath: string, id: string, subFilter: string) => Promise<Artist[]>;
     searchQuery: string;
     isFavoritesPage: boolean;
     favorites: Artist[];
+    setArtist: React.Dispatch<React.SetStateAction<Artist[]>>;
+    setGenres: React.Dispatch<React.SetStateAction<Genre[]>>;
+    fetchGenres: (currentPath: string, query: string) => Promise<Genre[]>;
+    fetchArtists: (currentPath: string, id: string) => Promise<Artist[]>;
+    fetchArtistDetails: (id: string) => Promise<Artist[]>;
     addToFavorites: (movie: Artist) => void;
     removeFromFavorites: (id: string) => void;
 }

@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { TextField, Autocomplete } from '@mui/material';
+import { TextField, Autocomplete, Typography } from '@mui/material';
 import { MusicContext } from '../context/MusicContext';
 import { useLocation, useHistory } from 'react-router-dom';
-import { Artist, Genre } from '../interfaces/Music';
+import { Genre } from '../interfaces/Music';
+import PageTitle from './PageTitle';
 
 const listOptionStyles = {
   "& + .MuiAutocomplete-popper .MuiAutocomplete-option:hover": {
@@ -18,59 +19,78 @@ const SearchBar = () => {
   const history = useHistory();
   const location = useLocation();
   const currentPathName = location.pathname;
-  const parts = currentPathName.split('/');
-  const endingPathName = parts[parts.length - 1];
 
-  const { fetchGenres, fetchArtists, genres, setArtist } = useContext(MusicContext);
+  const { fetchGenres, genres } = useContext(MusicContext);
+  const [searchValue, setSearchValue] = useState('');
 
-  const handleSearch = async (value: string) => {
-    try {
-      await fetchGenres(currentPathName, value);
-    } catch (error) {
-      console.error('Error fetching suggestions:', error);
+  const uniqueGenres = genres.reduce((acc: Genre[], genre: Genre) => {
+    if (!acc.some(item => item.name === genre.name)) {
+      acc.push(genre);
     }
+    return acc;
+  }, []);
+
+  const handleSearch = (value: string) => {
+    setSearchValue(value);
+    getGenres(value);
   };
-  
+
   const handleOptionSelect = async (selectedValue: string) => {
     try {
       const selectedGenre = genres.find(genre => genre.id === selectedValue);
 
-      // Fetch and set artists based on the selected genre
       if (selectedGenre) {
-        console.log('yes')
-        const artistsResponse = await fetchArtists(currentPathName, selectedGenre.id, 'artists');
-        setArtist(artistsResponse)
         history.push(`${currentPathName}/${selectedGenre.id}/artists`);
+        if (location.pathname.includes('/artist')) {
+          const newPath = location.pathname.replace(/\/\d+\//, `/${selectedGenre.id}/`);
+          history.push(newPath);
+        }
+        setSearchValue(selectedValue)
       }
     } catch (error) {
       console.error('Error handling option select:', error);
     }
   };
 
+  const getGenres = async (value: string) => {
+    try {
+      await fetchGenres(currentPathName, value);
+    } catch (error) {
+      console.error('Error fetching suggestions:', error);
+    }
+  };
+
+  useEffect(() => {
+    getGenres(searchValue);
+  }, [searchValue]);
+
   return (
-    <Autocomplete
-      disablePortal
-      options={genres}
-      getOptionLabel={(option) => option.name}
-      sx={{
-        width: 500,
-        ml: 4,
-        ...listOptionStyles,
-      }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label={`Search ${endingPathName.charAt(0).toUpperCase() + endingPathName.slice(1)}...`}
-          onChange={(e) => handleSearch(e.target.value)}
-          fullWidth
-        />
-      )}
-      onChange={(event, value) => {
-        if (value) {
-          handleOptionSelect(value.id);
-        }
-      }}
-    />
+    <>
+      <PageTitle/>
+      <Autocomplete
+        disablePortal
+        options={uniqueGenres}
+        getOptionLabel={(option) => option.name}
+        sx={{
+          width: 500,
+          mt: 1.5,
+          ...listOptionStyles,
+        }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            label={'Search Genres'}
+            onChange={(e) => handleSearch(e.target.value)}
+            fullWidth
+          />
+        )}
+        onChange={(event, value) => {
+          if (event && value) {
+            handleOptionSelect(value.id);
+          }
+        }}
+      />
+    </>
   );
 };
 
