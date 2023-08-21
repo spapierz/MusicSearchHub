@@ -26,7 +26,7 @@ Make sure you have the following software installed:
 1. Clone this repository to your local machine:
 
   ```bash
-  git clone https://github.com/spapierz/GenreGaze.git
+  git clone https://github.com/spapierz/music-search-hub.git
   ``````
 
 2. Navigate to the project directory:
