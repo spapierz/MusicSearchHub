@@ -10,6 +10,7 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
 
   const MusicContextProvider: React.FC<MusicContextProviderProps> = ({ children }) => {
   const [favorites, setFavorites] = useState<Artist[]>([]);
+  const [favoritesLoaded, setFavoritesLoaded] = useState(false);
   const [isFavoritesPage, setIsFavoritesPage] = useState(false);
   const [pageTitle, setPageTitle] = useState('Enter a genre to find artists');
   const [searchQuery, setSearchQuery] = useState('');
@@ -84,6 +85,28 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
       }
       return data as Artist[];
   };
+
+  // Load favorites from local storage
+  useEffect(() => {
+    const savedFavorites = localStorage.getItem('favorites');
+    if (savedFavorites) {
+        const parsedFavorites: Artist[] = JSON.parse(savedFavorites);
+        setFavorites(parsedFavorites);
+    }
+    setFavoritesLoaded(true);
+}, []);
+
+  // Save favorites to local storage whenever 'favorites' state changes
+  useEffect(() => {
+    if (favoritesLoaded) {
+        const favoritesToSave = JSON.stringify(favorites);
+        localStorage.setItem('favorites', favoritesToSave);
+    }
+
+    if (!favorites.length) {
+        setIsFavoritesPage(false);
+    }
+}, [favorites, favoritesLoaded]);
 
   const addToFavorites = useCallback((artist: Artist) => {
     setFavorites(prevFavorites => [...prevFavorites, artist]);

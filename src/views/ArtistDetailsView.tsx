@@ -21,8 +21,9 @@ const ArtistDetailsView: React.FC = () => {
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        await fetchArtistDetails(id);
+        const res = await fetchArtistDetails(id);
         setIsLoading(false);
+        return res;
       } catch (error) {
         console.error('Error fetching artist details:', error);
       }
@@ -35,7 +36,7 @@ const ArtistDetailsView: React.FC = () => {
     <div>
       <BackButton />
       <h2>Artist Details</h2>
-      {isLoading ? (
+      {isLoading ? (    
         <div style={spinnerStyles}><CircularProgress /></div>
       ) : (
         <ul>

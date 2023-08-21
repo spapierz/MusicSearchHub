@@ -3,11 +3,10 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import { Container, CircularProgress } from '@mui/material';
 import ArtistContextProvider from './context/MusicContext';
 import Header from './components/Header';
+import NotFoundPage from './components/NotFoundPage';
 
-// Import your lazy-loaded components
 const LazyArtistView = lazy(() => import('./views/ArtistView'));
 const LazyArtistDetailView = lazy(() => import('./views/ArtistDetailsView'));
-const LazyFavoritesView = lazy(() => import('./views/FavoritesView'));
 const LazySearchBar = lazy(() => import('./components/SearchBar'));
 
 const App: React.FC = () => {
@@ -27,10 +26,9 @@ const App: React.FC = () => {
             />
             <Switch>
               <Route path="/genres/:id/:artists" component={LazyArtistView} />
-              <Route path="/artist-details/:id" component={LazyArtistDetailView} />
-              <Route path="/favorites" component={LazyFavoritesView} />
+              {<Route path="/artist-details/:id" component={NotFoundPage} />}
+              <Route path="/favorites" component={LazyArtistView} />
               <Redirect exact from="/" to="/genres" />
-              {/* Add a default route or a 404 page here */}
             </Switch>
           </Suspense>
         </Container>

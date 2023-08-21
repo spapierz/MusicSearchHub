@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { TextField, Autocomplete, Typography } from '@mui/material';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { TextField, Autocomplete } from '@mui/material';
 import { MusicContext } from '../context/MusicContext';
 import { useLocation, useHistory } from 'react-router-dom';
 import { Genre } from '../interfaces/Music';
@@ -23,13 +23,6 @@ const SearchBar = () => {
   const { fetchGenres, genres } = useContext(MusicContext);
   const [searchValue, setSearchValue] = useState('');
 
-  const uniqueGenres = genres.reduce((acc: Genre[], genre: Genre) => {
-    if (!acc.some(item => item.name === genre.name)) {
-      acc.push(genre);
-    }
-    return acc;
-  }, []);
-
   const handleSearch = (value: string) => {
     setSearchValue(value);
     getGenres(value);
@@ -52,24 +45,26 @@ const SearchBar = () => {
     }
   };
 
-  const getGenres = async (value: string) => {
+  const getGenres = useCallback(async (value: string) => {
     try {
-      await fetchGenres(currentPathName, value);
+      const res = await fetchGenres(currentPathName, value);
+      return res;
     } catch (error) {
       console.error('Error fetching suggestions:', error);
     }
-  };
+  }, [currentPathName]);
+  
 
   useEffect(() => {
     getGenres(searchValue);
-  }, [searchValue]);
+  }, [searchValue, getGenres]);
 
   return (
     <>
       <PageTitle/>
       <Autocomplete
         disablePortal
-        options={uniqueGenres}
+        options={genres}
         getOptionLabel={(option) => option.name}
         sx={{
           width: 500,
