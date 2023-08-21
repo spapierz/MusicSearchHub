@@ -28,6 +28,13 @@ const SearchBar = () => {
     getGenres(value);
   };
 
+  const uniqueGenres = genres.reduce((acc: Genre[], genre: Genre) => {
+    if (!acc.some(item => item.name === genre.name)) {
+      acc.push(genre);
+    }
+    return acc;
+  }, []);
+
   const handleOptionSelect = async (selectedValue: string) => {
     try {
       const selectedGenre = genres.find(genre => genre.id === selectedValue);
@@ -64,7 +71,7 @@ const SearchBar = () => {
       <PageTitle/>
       <Autocomplete
         disablePortal
-        options={genres}
+        options={uniqueGenres}
         getOptionLabel={(option) => option.name}
         sx={{
           width: 500,

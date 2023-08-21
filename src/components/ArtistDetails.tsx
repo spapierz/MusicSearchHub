@@ -4,7 +4,6 @@ import { MusicContext } from '../context/MusicContext';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Button, Card, CardActions, CardContent, Grid, Typography } from '@mui/material';
 import { FavoriteBorder } from '@mui/icons-material';
-import { Artist } from '../interfaces/Music';
 
 const spinnerStyles = {
   display: 'flex',
@@ -13,28 +12,24 @@ const spinnerStyles = {
   height: '100vh',
 };
 
-interface MusicItemProps {
-  artist: Artist;
-}
-
 const logo = "/images/genreGaze-logo.png";
 
-const ArtistDetails: React.FC<MusicItemProps> = ({ artist }) => {
+const ArtistDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { fetchArtistDetails } = useContext(MusicContext);
+  const { fetchArtistDetails, artist } = useContext(MusicContext);
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
-  
+
   const fetchDetails = async () => {
     try {
       const res = await fetchArtistDetails(id);
+      console.log(res);
       setIsLoading(false);
-      return res;
     } catch (error) {
       console.error('Error fetching artist details:', error);
     }
   };
-  
+
   useEffect(() => {
     fetchDetails();
   }, []);
@@ -42,35 +37,37 @@ const ArtistDetails: React.FC<MusicItemProps> = ({ artist }) => {
   return (
     <div>
       <h2>Artist Details</h2>
-      {isLoading ? (    
-        <div style={spinnerStyles}><CircularProgress /></div>
+      {isLoading ? (
+        <div style={spinnerStyles}>
+          <CircularProgress />
+        </div>
       ) : (
         <>
           <Card sx={{ maxWidth: 400 }}>
             <CardContent>
               <Grid container alignItems="center" spacing={2}>
                 <Grid item xs={3}>
-                <img
-                  src={artist.image ?? logo}
-                  alt={artist.name}
-                  style={{
-                    height: '229px',
-                    width: '100%',
-                    objectFit: 'cover',
-                    borderRadius: '10px',
-                  }}
-                  loading="lazy"
-                />
+                  <img
+                    src={'/'}
+                    alt={'artist.name'}
+                    style={{
+                      height: '229px',
+                      width: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '10px',
+                    }}
+                    loading="lazy"
+                  />
                 </Grid>
                 <Grid item xs={9}>
                   <Typography variant="h6" fontWeight="bold">
-                    {artist.name}
+                    artist name
                   </Typography>
                   <Typography variant="body1" color="textSecondary">
-                    hi
+                    {/* Display additional details here */}
                   </Typography>
                   <Typography variant="body2" color="textSecondary">
-                    Popularity:
+                    Popularity: popularity
                   </Typography>
                 </Grid>
               </Grid>
