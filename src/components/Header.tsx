@@ -21,7 +21,7 @@ const Header: React.FC = () => {
   return (
     <Grid container sx={containerStyles}>
       <Grid item xs={6}>
-        <img style={logoStyles} src={logo} onClick={e => history.push('/')} alt='Back to (Home) genre search' />
+        <img style={logoStyles} src={logo} onClick={e => history.push('/')} alt='Back to (Home) genre search' width="200px" height="100px" />
       </Grid>
       <Grid item xs={6}>
         <FavoritesButton />

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { MusicContext } from '../context/MusicContext';
 import CircularProgress from '@mui/material/CircularProgress';
 import { Button, Card, CardActions, CardContent, Grid, Typography } from '@mui/material';
@@ -16,23 +16,12 @@ const logo = "/images/genreGaze-logo.png";
 
 const ArtistDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { fetchArtistDetails, artist } = useContext(MusicContext);
-  const location = useLocation();
+  const { artist } = useContext(MusicContext);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchDetails = async () => {
-    try {
-      const res = await fetchArtistDetails(id);
-      console.log(res);
-      setIsLoading(false);
-    } catch (error) {
-      console.error('Error fetching artist details:', error);
-    }
-  };
-
   useEffect(() => {
-    fetchDetails();
-  }, []);
+    console.log(artist)
+  }, [])
 
   return (
     <div>

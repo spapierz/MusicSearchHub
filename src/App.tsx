@@ -26,7 +26,7 @@ const App: React.FC = () => {
             />
             <Switch>
               <Route path="/genres/:id/:artists" component={LazyArtistView} />
-              {<Route path="/artist-details/:id" component={NotFoundPage} />}
+              {<Route path="/artist-details/:id" component={LazyArtistDetailView} />}
               <Route path="/favorites" component={LazyArtistView} />
               <Redirect exact from="/" to="/genres" />
             </Switch>

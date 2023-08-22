@@ -42,7 +42,7 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
     return data as Genre[];
   };
 
-  const fetchArtists = async (
+  const fetchArtists = useCallback(async (
     currentPath: string,
     id: string,
   ): Promise<Artist[]> => {
@@ -50,7 +50,6 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
     const response = await axios.get(url, {
       params: {
           apikey: API_KEY,
-          limit: 50
       },
     });
 
@@ -64,7 +63,7 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
         throw new Error('Error connecting to the API');
     }
     return data as Artist[];
-  };
+  }, []);
 
   const fetchArtistDetails = async (
     id?: string,

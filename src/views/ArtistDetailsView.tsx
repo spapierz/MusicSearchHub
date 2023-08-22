@@ -6,11 +6,11 @@ import CircularProgress from '@mui/material/CircularProgress';
 import BackButton from '../components/BackButton';
 
 const spinnerStyles = {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-  };
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '100vh',
+};
 
 const ArtistDetailsView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -21,22 +21,21 @@ const ArtistDetailsView: React.FC = () => {
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const res = await fetchArtistDetails(id);
+        const fetchedArtist = await fetchArtistDetails(id);
         setIsLoading(false);
-        return res;
       } catch (error) {
         console.error('Error fetching artist details:', error);
       }
     };
 
     fetchDetails();
-  }, [id, fetchArtistDetails, location.pathname]);
+  }, [id, fetchArtistDetails]);
 
   return (
     <div>
       <BackButton />
       <h2>Artist Details</h2>
-      {isLoading ? (    
+      {isLoading ? (
         <div style={spinnerStyles}><CircularProgress /></div>
       ) : (
         <ul>

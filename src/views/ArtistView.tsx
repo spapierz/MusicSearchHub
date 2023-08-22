@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Grid, Typography } from '@mui/material';
 import { useLocation, useParams } from 'react-router-dom';
 import { MusicContext } from '../context/MusicContext';
@@ -7,37 +7,26 @@ import BackButton from '../components/BackButton';
 
 const ArtistView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { fetchArtists, setArtist, artist, favorites } = useContext(MusicContext);
+  const { fetchArtists, artist, favorites } = useContext(MusicContext);
   const location = useLocation();
   const displayedArtists = location.pathname.includes('favorites') ? favorites : artist;
 
-  const fetchArtistData = async () => {
-    try {
-      const artistResponse = await fetchArtists('/genres', id);
-      setArtist(artistResponse);
-      return artistResponse;
-    } catch (error) {
-      console.error('Error fetching artists:', error);
-    }
-  };
-
   useEffect(() => {
     if (location.pathname !== '/favorites') {
-      fetchArtistData();
+      fetchArtists('/genres', id);
     }
-  }, [id, location.pathname]);
-
+  }, [id, fetchArtists]);
   return (
     <>
       <BackButton />
       <Grid container spacing={3} sx={{ mt: 0 }} role="list">
-        {displayedArtists.length ? (
-          displayedArtists.map((artistItem) => (
-            <Grid item xs={5} sm={3} md={2} key={artistItem.id} role="listitem">
-              <ArtistItem artist={artistItem} />
-            </Grid>
-          ))
-        ) : (
+        <>{console.log('hi', artist)}</>
+        {displayedArtists.map((artistItem) => (
+          <Grid item xs={5} sm={3} md={2} key={artistItem.id} role="listitem">
+            <ArtistItem artist={artistItem} />
+          </Grid>
+        ))}
+        {displayedArtists.length === 0 && (
           <Grid
             item
             xs={12}

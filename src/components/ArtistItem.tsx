@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Artist } from '../interfaces/Music';
-import { Typography, IconButton, Grid } from '@mui/material';
+import { Typography, IconButton, Grid, Skeleton } from '@mui/material';
 import { Star, StarBorder } from '@mui/icons-material';
 import { useHistory } from 'react-router-dom';
 import { MusicContext } from '../context/MusicContext';
+import ImageSkeleton from './ImageSkeleton';
 
 interface MusicItemProps {
   artist: Artist;
@@ -13,6 +14,7 @@ const logo = "/images/genreGaze-logo.png";
 
 export const ArtistItem: React.FC<MusicItemProps> = ({ artist }) => {
   const [isFavorite, setIsFavorite] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const { addToFavorites, removeFromFavorites, favorites } = useContext(MusicContext);
   const history = useHistory();
@@ -34,19 +36,41 @@ export const ArtistItem: React.FC<MusicItemProps> = ({ artist }) => {
     history.push(`/artist-details/${artist.id}`);
   };
 
+  const handleImageLoaded = () => {
+    setImageLoaded(true);
+  };
+
   return (
     <Grid container sx={{ position: 'relative', cursor: 'pointer' }} role="list">
-      <img
-        src={artist.image ? artist.image : logo}
-        alt={artist.name}
-        style={{
-          height: '229px',
-          width: '100%',
-          objectFit: 'cover',
-          borderRadius: '10px',
-        }}
-        onClick={handleImageClick}
-      />
+      <picture style={{ position: 'relative', display: 'block' }}>
+        <source
+          type="image/webp"
+          srcSet={`${artist.image ? artist.image.replace(/\.(jpg|jpeg|png)$/, '.webp') : ''}`}
+        />
+        <img
+          src={artist.image ? artist.image.replace(/\.(jpg|jpeg|png)$/, '.webp') : logo}
+          alt={artist.name}
+          className={`blurred-image ${imageLoaded ? 'loaded-image' : ''}`}
+          style={{
+            height: '229px',
+            width: '183px',
+            objectFit: 'cover',
+            borderRadius: '10px',
+            position: 'relative',
+            visibility: imageLoaded ? 'visible' : 'hidden',
+            filter: imageLoaded ? 'blur(0)' : 'blur(8px)',
+            transition: 'filter 0.5s ease-in-out',
+          }}
+          sizes="(max-width: 600px) 100vw, 50vw"
+          onClick={handleImageClick}
+          width='183px'
+          height='229px'
+          loading="lazy"
+          onLoad={handleImageLoaded}
+        />
+        {!imageLoaded && <ImageSkeleton />}
+      </picture>
+
       <Grid item style={{
         position: 'absolute',
         top: 168,
@@ -90,4 +114,4 @@ export const ArtistItem: React.FC<MusicItemProps> = ({ artist }) => {
   );
 };
 
-export default ArtistItem;
+export default React.memo(ArtistItem);

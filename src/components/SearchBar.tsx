@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { TextField, Autocomplete } from '@mui/material';
 import { MusicContext } from '../context/MusicContext';
 import { useLocation, useHistory } from 'react-router-dom';
@@ -23,19 +23,7 @@ const SearchBar = () => {
   const { fetchGenres, genres } = useContext(MusicContext);
   const [searchValue, setSearchValue] = useState('');
 
-  const handleSearch = (value: string) => {
-    setSearchValue(value);
-    getGenres(value);
-  };
-
-  const uniqueGenres = genres.reduce((acc: Genre[], genre: Genre) => {
-    if (!acc.some(item => item.name === genre.name)) {
-      acc.push(genre);
-    }
-    return acc;
-  }, []);
-
-  const handleOptionSelect = async (selectedValue: string) => {
+  const handleOptionSelect = (selectedValue: string) => {
     try {
       const selectedGenre = genres.find(genre => genre.id === selectedValue);
 
@@ -52,19 +40,30 @@ const SearchBar = () => {
     }
   };
 
-  const getGenres = useCallback(async (value: string) => {
-    try {
-      const res = await fetchGenres(currentPathName, value);
-      return res;
-    } catch (error) {
-      console.error('Error fetching suggestions:', error);
-    }
+  const fetchAndFilterGenres = useCallback((value: string) => {
+    const res = fetchGenres(currentPathName, value);
+    return res;
   }, [currentPathName]);
-  
 
-  useEffect(() => {
-    getGenres(searchValue);
-  }, [searchValue, getGenres]);
+  const handleSearch = (value: string) => {
+    setSearchValue(value);
+    fetchAndFilterGenres(value);
+  };
+
+  const uniqueGenres = useMemo(() => {
+    const uniqueGenreNames = new Set();
+    const uniqueGenresArray: Genre[] = [];
+  
+    for (const genre of genres) {
+      if (!uniqueGenreNames.has(genre.name)) {
+        uniqueGenreNames.add(genre.name);
+        uniqueGenresArray.push(genre);
+      }
+    }
+  
+    return uniqueGenresArray;
+  }, [genres]);  
+console.log('hi')
 
   return (
     <>
