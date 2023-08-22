@@ -5,13 +5,8 @@ const spinnerStyles = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  minHeight: '100vh',
-  position: 'fixed',  // Fix the position within the viewport
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-} as React.CSSProperties;
+  height: '100vh',
+};
 
 const Spinner: React.FC = () => {
   return <div style={spinnerStyles}><CircularProgress /></div>;

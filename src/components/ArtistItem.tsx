@@ -53,7 +53,7 @@ export const ArtistItem: React.FC<MusicItemProps> = ({ artist }) => {
           className={`blurred-image ${imageLoaded ? 'loaded-image' : ''}`}
           style={{
             height: '229px',
-            width: '183px',
+            width: '180px',
             objectFit: 'cover',
             borderRadius: '10px',
             position: 'relative',
@@ -63,7 +63,7 @@ export const ArtistItem: React.FC<MusicItemProps> = ({ artist }) => {
           }}
           sizes="(max-width: 600px) 100vw, 50vw"
           onClick={handleImageClick}
-          width='183px'
+          width='180px'
           height='229px'
           loading="lazy"
           onLoad={handleImageLoaded}

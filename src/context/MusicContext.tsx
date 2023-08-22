@@ -47,19 +47,18 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
     id: string,
   ): Promise<Artist[]> => {
     const url = `${API_BASE_URL}${currentPath}/${id}/artists`;
-    const response = await axios.get(url, {
+    
+    const { data: { data } } = await axios.get(url, {
       params: {
-          apikey: API_KEY,
+        apikey: API_KEY,
       },
     });
 
-    const { data: { data } } = response;
-
-    if (data?.length) {
+    if (data.length) {
       setArtist(data as Artist[]);
       setGenres(genres as Genre[]); // Reset genres when fetching artists
     }
-    if (!response.data || !response.data.data) {
+    if (!data) {
         throw new Error('Error connecting to the API');
     }
     return data as Artist[];
@@ -69,17 +68,17 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
     id?: string,
   ): Promise<Artist[]> => {
       const url = `${API_BASE_URL}/artists/${id}`;
-      const response = await axios.get(url, {
-          params: {
-              apikey: API_KEY,
-          },  
+      const { data: { data } } = await axios.get(url, {
+        params: {
+          apikey: API_KEY,
+        },
       });
-      const { data: { data } } = response;
+
       if (data?.length) {
         setArtist(data as Artist[]);
         setGenres([]); // Reset genres when fetching artist details
       }
-      if (!response.data || !response.data.data) {
+      if (!data) {
         throw new Error('Error connecting to the API');
       }
       return data as Artist[];
