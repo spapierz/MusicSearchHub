@@ -32,7 +32,7 @@ Make sure you have the following software installed:
 2. Navigate to the project directory:
 
   ```bash
-  cd GenreGaze
+  cd music-search-hub
   ``````
 
 3. Install project dependencies using Yarn:
