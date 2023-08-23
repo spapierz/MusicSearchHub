@@ -77,7 +77,7 @@ export const ArtistItem: React.FC<MusicItemProps> = ({ artist }) => {
         right: 10,
         zIndex: 1,
       }}>
-        <IconButton onClick={handleToggleFavorite} aria-label={isFavorite ? 'favorited heart icon' : 'not yet favorited heart icon'}>
+        <IconButton onClick={handleToggleFavorite} aria-label={isFavorite ? 'favorited star icon' : 'not yet favorited star icon'}>
           {isFavorite ? 
             <Star style={{
               color: 'white',

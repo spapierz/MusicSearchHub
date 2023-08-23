@@ -4,6 +4,7 @@ import { MusicContext } from '../context/MusicContext';
 import { Artist } from '../interfaces/Music';
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
+import ArtistDetails from '../components/ArtistDetails';
 
 const ArtistDetailsView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -26,15 +27,14 @@ const ArtistDetailsView: React.FC = () => {
   return (
     <div>
       <BackButton />
-      <h2>Artist Details</h2>
       {isLoading ? (
         <Spinner />
       ) : (
-        <ul>
+        <>
           {artist.map((artist: Artist) => (
-            <li key={artist.id}>{artist.name}</li>
+            <ArtistDetails artist={artist} />
           ))}
-        </ul>
+        </>
       )}
     </div>
   );

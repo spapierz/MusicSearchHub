@@ -23,17 +23,20 @@ const SearchBar = () => {
   const { fetchGenres, genres } = useContext(MusicContext);
   const [searchValue, setSearchValue] = useState('');
 
-  const handleOptionSelect = (selectedValue: string) => {
+  const handleOptionSelect = (selectedValue: string | Genre) => {
     try {
-      const selectedGenre = genres.find(genre => genre.id === selectedValue);
-
+      const selectedGenreId =
+        typeof selectedValue === 'string' ? selectedValue : selectedValue.id.toString();
+  
+      const selectedGenre = genres.find(genre => genre.id === parseInt(selectedGenreId, 10));
+  
       if (selectedGenre) {
         history.push(`${currentPathName}/${selectedGenre.id}/artists`);
         if (location.pathname.includes('/artist')) {
           const newPath = location.pathname.replace(/\/\d+\//, `/${selectedGenre.id}/`);
           history.push(newPath);
         }
-        setSearchValue(selectedValue)
+        setSearchValue(selectedGenreId);
       }
     } catch (error) {
       console.error('Error handling option select:', error);
@@ -86,7 +89,7 @@ const SearchBar = () => {
         )}
         onChange={(event, value) => {
           if (event && value) {
-            handleOptionSelect(value.id);
+            handleOptionSelect(value);
           }
         }}
       />

@@ -2,15 +2,15 @@ export interface Artist {
     id: string;
     name: string;
     image: string;
-    genre: string;
-    additional_genres: string;
-    popularity_score: number;
+    genres: Genre[];
+    popularity: number;
 }
 
 export interface Genre {
-    id: string;
-    parent_id: string;
+    id: number;
     name: string;
+    parent_id: string;
+    is_primary: number;
 }
 
 export interface MusicContextData {
