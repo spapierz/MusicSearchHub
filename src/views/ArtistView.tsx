@@ -17,12 +17,12 @@ const ArtistView: React.FC = () => {
     const timer = setTimeout(() => {
       if (location.pathname !== '/favorites') {
         fetchArtists('/genres', id).then(() => {
-          setIsLoading(false); // Set isLoading to false after fetching data
+          setIsLoading(false);
         });
       } else {
-        setIsLoading(false); // Set isLoading to false for the favorites page
+        setIsLoading(false);
       }
-    }, 200); // Add a delay of 500 milliseconds
+    }, 200); // Add a delay of 200 milliseconds
 
     return () => clearTimeout(timer); // Clear the timer on component unmount
   }, [id, fetchArtists, location.pathname]);

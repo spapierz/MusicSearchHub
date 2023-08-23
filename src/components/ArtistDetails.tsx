@@ -13,7 +13,6 @@ const logo = "/images/genreGaze-logo.png";
 const ArtistDetails: React.FC<MusicItemProps> = ({ artist }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [genres, setGenres] = useState([]);
   const { addToFavorites, removeFromFavorites, favorites } = useContext(MusicContext);
 
   useEffect(() => {
@@ -138,7 +137,3 @@ const ArtistDetails: React.FC<MusicItemProps> = ({ artist }) => {
 };
 
 export default ArtistDetails;
-function setIsFavorite(arg0: any) {
-  throw new Error('Function not implemented.');
-}
-
