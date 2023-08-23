@@ -8,7 +8,7 @@ import ArtistDetails from '../components/ArtistDetails';
 
 const ArtistDetailsView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { fetchArtistDetails, artist } = useContext(MusicContext);
+  const { fetchArtistDetails, artist, genres } = useContext(MusicContext);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -20,7 +20,6 @@ const ArtistDetailsView: React.FC = () => {
         console.error('Error fetching artist details:', error);
       }
     };
-
     fetchDetails();
   }, [id, fetchArtistDetails]);
 

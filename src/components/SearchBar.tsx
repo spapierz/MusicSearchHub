@@ -50,6 +50,7 @@ const SearchBar = () => {
 
   const handleSearch = (value: string) => {
     setSearchValue(value);
+    fetchAndFilterGenres(value);
   };
 
   const uniqueGenres = useMemo(() => {
