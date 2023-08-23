@@ -44,13 +44,12 @@ const SearchBar = () => {
   };
 
   const fetchAndFilterGenres = useCallback((value: string) => {
-    const res = fetchGenres(currentPathName, value);
+    const res = fetchGenres(value);
     return res;
   }, [currentPathName]);
 
   const handleSearch = (value: string) => {
     setSearchValue(value);
-    fetchAndFilterGenres(value);
   };
 
   const uniqueGenres = useMemo(() => {

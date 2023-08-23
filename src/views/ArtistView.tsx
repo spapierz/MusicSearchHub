@@ -16,7 +16,7 @@ const ArtistView: React.FC = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (location.pathname !== '/favorites') {
-        fetchArtists('/genres', id).then(() => {
+        fetchArtists(id).then(() => {
           setIsLoading(false);
         });
       } else {

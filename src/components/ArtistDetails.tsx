@@ -32,11 +32,8 @@ const ArtistDetails: React.FC<MusicItemProps> = ({ artist }) => {
     setImageLoaded(true);
   };
 
-  const PrimaryGenre = () => {
-    return artist.genres.map(genre => (
-      genre.is_primary === 1 && genre.name
-    ))
-  };
+  const getPrimaryGenre = () => artist.genres.filter(genre => genre.is_primary === 1);
+  const PrimaryGenreNames = () => getPrimaryGenre().map(genre => genre.name).join(', ');
 
   const AllGenres = () => {
     const genreNames = artist.genres.map(genre => genre.name);
@@ -88,7 +85,7 @@ const ArtistDetails: React.FC<MusicItemProps> = ({ artist }) => {
                   {artist.name}
                 </Typography>
                 <Typography variant="body1" color="textSecondary" sx={{ mt: 2, mb: 1 }}>
-                  Primary Genre: <PrimaryGenre />
+                  Primary Genre: <PrimaryGenreNames />
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   Popularity Score: {artist.popularity}

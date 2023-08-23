@@ -22,8 +22,8 @@ export interface MusicContextData {
     favorites: Artist[];
     setArtist: React.Dispatch<React.SetStateAction<Artist[]>>;
     setGenres: React.Dispatch<React.SetStateAction<Genre[]>>;
-    fetchGenres: (currentPath: string, query: string) => Promise<Genre[]>;
-    fetchArtists: (currentPath: string, id: string) => Promise<Artist[]>;
+    fetchGenres: (query: string) => Promise<Genre[]>;
+    fetchArtists: (id: string) => Promise<Artist[]>;
     fetchArtistDetails: (id: string) => Promise<Artist[]>;
     addToFavorites: (movie: Artist) => void;
     removeFromFavorites: (id: string) => void;

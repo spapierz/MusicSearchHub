@@ -9,18 +9,18 @@ interface MusicContextProviderProps {
 export const MusicContext = createContext<MusicContextData>({} as MusicContextData);
 
   const MusicContextProvider: React.FC<MusicContextProviderProps> = ({ children }) => {
-  const [favorites, setFavorites] = useState<Artist[]>([]);
-  const [favoritesLoaded, setFavoritesLoaded] = useState(false);
-  const [isFavoritesPage, setIsFavoritesPage] = useState(false);
-  const [pageTitle, setPageTitle] = useState('Enter a genre to find artists');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [genres, setGenres] = useState<Genre[]>([]);
-  const [artist, setArtist] = useState<Artist[]>([]);
+    const [favorites, setFavorites] = useState<Artist[]>([]);
+    const [favoritesLoaded, setFavoritesLoaded] = useState(false);
+    const [isFavoritesPage, setIsFavoritesPage] = useState(false);
+    const [pageTitle, setPageTitle] = useState('Enter a genre to find artists');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [genres, setGenres] = useState<Genre[]>([]);
+    const [artist, setArtist] = useState<Artist[]>([]);
 
   const API_BASE_URL = 'https://music.musicaudience.info/api/v1/music';
   const API_KEY = '5db48e1f3a0a4580bad47849f1317bd0';
   
-  const fetchGenres = async (currentPath: string, query: string): Promise<Genre[]> => {
+  const fetchGenres = async (query: string): Promise<Genre[]> => {
     const url = `${API_BASE_URL}/genres?q=${query}`;
     const response = await axios.get(url, {
       params: {
@@ -43,10 +43,9 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
   };
 
   const fetchArtists = useCallback(async (
-    currentPath: string,
     id: string,
   ): Promise<Artist[]> => {
-    const url = `${API_BASE_URL}${currentPath}/${id}/artists`;
+    const url = `${API_BASE_URL}/genres/${id}/artists`;
     
     const { data: { data } } = await axios.get(url, {
       params: {
@@ -92,6 +91,7 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
         setFavorites(parsedFavorites);
     }
     setFavoritesLoaded(true);
+    fetchGenres('').catch(error => console.error('Error fetching genres:', error));
 }, []);
 
   // Save favorites to local storage whenever 'favorites' state changes
