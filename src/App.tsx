@@ -31,7 +31,7 @@ const App: React.FC = () => {
               <Route path="/favorites" component={LazyArtistView} />
               <Route path="/genres" component={LazyGenresView} />
               <Redirect exact from="/" to="/genres" />
-              <Route component={NotFoundPage} />
+              <Route path="*" component={NotFoundPage} />
             </Switch>
           </Suspense>
         </Container>
