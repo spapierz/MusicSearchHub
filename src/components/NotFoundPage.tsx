@@ -20,7 +20,7 @@ const NotFoundPage: React.FC = () => {
       >
         <Grid item xs={12}>
           <MusicOff fontSize="large" color="error" />
-          <Typography variant="h5" sx={{ mt: 3 }}>Oops! Page Is Under Construction.</Typography>
+          <Typography variant="h5" sx={{ mt: 3 }}>Oops! Page Not Found.</Typography>
         </Grid>
       </Grid>
     </>

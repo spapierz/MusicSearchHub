@@ -15,6 +15,7 @@ const logoStyles = {
 }
 
 const Header: React.FC = () => {
+  const history = useHistory();
   const logo = '/images/genreGaze-logo.png';
 
   return (
@@ -25,6 +26,7 @@ const Header: React.FC = () => {
         alt="Back to (Home) genre search"
         width="200px"
         height="100px"
+        onClick={() => history.push('/')}
         style={{
           maxWidth: '150px',
           height: 'auto',

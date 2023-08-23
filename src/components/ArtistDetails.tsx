@@ -12,16 +12,10 @@ const spinnerStyles = {
   height: '100vh',
 };
 
-const logo = "/images/genreGaze-logo.png";
-
 const ArtistDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { artist } = useContext(MusicContext);
   const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    console.log(artist)
-  }, [])
 
   return (
     <div>

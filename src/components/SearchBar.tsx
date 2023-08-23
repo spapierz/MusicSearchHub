@@ -63,7 +63,6 @@ const SearchBar = () => {
   
     return uniqueGenresArray;
   }, [genres]);  
-console.log('hi')
 
   return (
     <>
