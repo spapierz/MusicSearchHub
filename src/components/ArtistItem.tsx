@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Artist } from '../interfaces/Music';
-import { Typography, IconButton, Grid, Skeleton } from '@mui/material';
+import { Typography, IconButton, Grid } from '@mui/material';
 import { Star, StarBorder } from '@mui/icons-material';
 import { useHistory } from 'react-router-dom';
 import { MusicContext } from '../context/MusicContext';
-import ImageSkeleton from './ImageSkeleton';
 
 interface MusicItemProps {
   artist: Artist;
@@ -68,7 +67,6 @@ export const ArtistItem: React.FC<MusicItemProps> = ({ artist }) => {
           loading="lazy"
           onLoad={handleImageLoaded}
         />
-        {!imageLoaded && <ImageSkeleton />}
       </picture>
 
       <Grid item style={{
