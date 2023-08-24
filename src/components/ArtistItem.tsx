@@ -78,11 +78,9 @@ export const ArtistItem: React.FC<MusicItemProps> = ({ artist }) => {
           onLoad={handleImageLoaded}
         />
       </picture>
-    </div>
-
       <Grid item style={{
         position: 'absolute',
-        top: 168,
+        top: 178,
         right: 10,
         zIndex: 1,
       }}>
@@ -106,7 +104,8 @@ export const ArtistItem: React.FC<MusicItemProps> = ({ artist }) => {
           }
         </IconButton>
       </Grid>
-      <Grid item style={{
+    </div>
+    <Grid item style={{
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
