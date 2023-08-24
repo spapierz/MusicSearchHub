@@ -3,12 +3,11 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import ArtistDetails from '../ArtistDetails';
 import { MusicContext } from '../../context/MusicContext';
 
-// Mock the MusicContext with a more complete structure
 const mockContext = {
   addToFavorites: jest.fn(),
   removeFromFavorites: jest.fn(),
   favorites: [],
-  genres: [], // Add these context values to match MusicContextData
+  genres: [],
   setGenres: jest.fn(),
   artist: [],
   setArtist: jest.fn(),
@@ -36,7 +35,6 @@ test('renders ArtistDetails component', () => {
     </MusicContext.Provider>
   );
 
-  // Make assertions about rendered content
   expect(screen.getByText('Artist Name')).toBeInTheDocument();
   expect(screen.getByText('Primary Genre:')).toBeInTheDocument();
   expect(screen.getByText('Popularity Score: 80')).toBeInTheDocument();
