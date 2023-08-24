@@ -35,6 +35,7 @@ const ArtistDetails: React.FC<MusicItemProps> = ({ artist }) => {
   const getPrimaryGenre = () => artist.genres.filter(genre => genre.is_primary === 1);
   const PrimaryGenreNames = () => getPrimaryGenre().map(genre => genre.name).join(', ');
 
+
   const AllGenres = () => {
     const genreNames = artist.genres.map(genre => genre.name);
     const formattedGenres = genreNames.join(', ');
@@ -48,87 +49,86 @@ const ArtistDetails: React.FC<MusicItemProps> = ({ artist }) => {
 
   return (
     <>
-      <h2>Artist Details</h2>
-        <Card sx={{ maxWidth: 700 }}>
-          <CardContent>
-            <Grid container alignItems="center" spacing={2}>
-              <Grid item xs={4}>
-                <picture style={{ position: 'relative', display: 'block' }}>
-                  <source
-                    type="image/webp"
-                    srcSet={`${artist.image ? artist.image.replace(/\.(jpg|jpeg|png)$/, '.webp') : ''}`}
-                  />
-                  <img
-                    src={artist.image ? artist.image.replace(/\.(jpg|jpeg|png)$/, '.webp') : logo}
-                    alt={artist.name}
-                    className={`blurred-image ${imageLoaded ? 'loaded-image' : ''}`}
-                    style={{
-                      height: '229px',
-                      width: '180px',
-                      objectFit: 'cover',
-                      borderRadius: '10px',
-                      position: 'relative',
-                      visibility: imageLoaded ? 'visible' : 'hidden',
-                      filter: imageLoaded ? 'blur(0)' : 'blur(8px)',
-                      transition: 'filter 0.5s ease-in-out',
-                    }}
-                    sizes="(max-width: 600px) 100vw, 50vw"
-                    width='180px'
-                    height='229px'
-                    loading="lazy"
-                    onLoad={handleImageLoaded}
-                  />
-                </picture>
-              </Grid>
-              <Grid item xs={8}>
-                <Typography variant="h6" fontWeight="bold">
-                  {artist.name}
-                </Typography>
-                <Typography variant="body1" color="textSecondary" sx={{ mt: 2, mb: 1 }}>
-                  Primary Genre: <PrimaryGenreNames />
-                </Typography>
-                <Typography variant="body2" color="textSecondary">
-                  Popularity Score: {artist.popularity}
-                </Typography>
-              </Grid>
+      <Card sx={{ maxWidth: 700 }}>
+        <CardContent>
+          <Grid container alignItems="center" spacing={2}>
+            <Grid item xs={4}>
+              <picture style={{ position: 'relative', display: 'block' }}>
+                <source
+                  type="image/webp"
+                  srcSet={`${artist.image ? artist.image.replace(/\.(jpg|jpeg|png)$/, '.webp') : ''}`}
+                />
+                <img
+                  src={artist.image ? artist.image.replace(/\.(jpg|jpeg|png)$/, '.webp') : logo}
+                  alt={artist.name}
+                  className={`blurred-image ${imageLoaded ? 'loaded-image' : ''}`}
+                  style={{
+                    height: '229px',
+                    width: '180px',
+                    objectFit: 'cover',
+                    borderRadius: '10px',
+                    position: 'relative',
+                    visibility: imageLoaded ? 'visible' : 'hidden',
+                    filter: imageLoaded ? 'blur(0)' : 'blur(8px)',
+                    transition: 'filter 0.5s ease-in-out',
+                  }}
+                  sizes="(max-width: 600px) 100vw, 50vw"
+                  width='180px'
+                  height='229px'
+                  loading="lazy"
+                  onLoad={handleImageLoaded}
+                />
+              </picture>
             </Grid>
-          </CardContent>
-          <CardContent sx={{ pt: 0 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div>
-                <Typography variant="h6">Additional Genres</Typography>
-                <AllGenres />
-              </div>
-              <div>
-                <CardActions sx={{ justifyContent: 'flex-end', pr: 0 }}>
-                  <IconButton onClick={handleToggleFavorite} aria-label={isFavorite ? 'favorited star icon' : 'not yet favorited star icon'}>
-                    {isFavorite ? 
-                      <Star
-                        style={{
-                          color: '#FF007F',
-                          fontSize: '24px',
-                          border: '2px solid #FF007F',
-                          borderRadius: '50%',
-                          padding: '5px'
-                        }}
-                      />
-                    :
-                      <StarBorder
-                        style={{
-                          color: '#FF007F',
-                          fontSize: '24px',
-                          border: '2px solid #FF007F',
-                          borderRadius: '50%',
-                          padding: '5px'
-                        }}
-                      />
-                    }
-                  </IconButton>
-                </CardActions>
-              </div>
+            <Grid item xs={8}>
+              <Typography variant="h6" fontWeight="bold">
+                {artist.name}
+              </Typography>
+              <Typography variant="body1" color="textSecondary" sx={{ mt: 2, mb: 1 }}>
+                Primary Genre: <PrimaryGenreNames />
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                Popularity Score: {artist.popularity}
+              </Typography>
+            </Grid>
+          </Grid>
+        </CardContent>
+        <CardContent sx={{ pt: 0 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+              <Typography variant="h6">Additional Genres</Typography>
+              <AllGenres />
             </div>
-          </CardContent>
-        </Card>
+            <div>
+              <CardActions sx={{ justifyContent: 'flex-end', pr: 0 }}>
+                <IconButton onClick={handleToggleFavorite} aria-label={isFavorite ? 'favorited star icon' : 'not yet favorited star icon'}>
+                  {isFavorite ?
+                    <Star
+                      style={{
+                        color: '#FF007F',
+                        fontSize: '24px',
+                        border: '2px solid #FF007F',
+                        borderRadius: '50%',
+                        padding: '5px'
+                      }}
+                    />
+                  :
+                    <StarBorder
+                      style={{
+                        color: '#FF007F',
+                        fontSize: '24px',
+                        border: '2px solid #FF007F',
+                        borderRadius: '50%',
+                        padding: '5px'
+                      }}
+                    />
+                  }
+                </IconButton>
+              </CardActions>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </>
   );
 };

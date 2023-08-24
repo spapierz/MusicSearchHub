@@ -4,6 +4,7 @@ export interface Artist {
     image: string;
     genres: Genre[];
     popularity: number;
+    similarArtists: Artist[]
 }
 
 export interface Genre {
@@ -25,6 +26,8 @@ export interface MusicContextData {
     fetchGenres: (query: string) => Promise<Genre[]>;
     fetchArtists: (id: string) => Promise<Artist[]>;
     fetchArtistDetails: (id: string) => Promise<Artist[]>;
+    fetchSimilarArtists: (id: string) => Promise<Artist[]>;
     addToFavorites: (movie: Artist) => void;
     removeFromFavorites: (id: string) => void;
+    similarArtists: Artist[];
 }

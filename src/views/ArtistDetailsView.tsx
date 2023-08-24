@@ -5,23 +5,27 @@ import { Artist } from '../interfaces/Music';
 import BackButton from '../components/BackButton';
 import Spinner from '../components/Spinner';
 import ArtistDetails from '../components/ArtistDetails';
+import ArtistItem from '../components/ArtistItem';
+import { Grid } from '@mui/material';
 
 const ArtistDetailsView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { fetchArtistDetails, artist, genres } = useContext(MusicContext);
+  const { fetchArtistDetails, fetchSimilarArtists, similarArtists, artist } = useContext(MusicContext);
   const [isLoading, setIsLoading] = useState(true);
 
+  const fetchMusicArtistDetails = async () => {
+    try {
+      await fetchArtistDetails(id);
+      await fetchSimilarArtists(id)
+      setIsLoading(false);
+    } catch (error) {
+      console.error('Error fetching artist details:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchDetails = async () => {
-      try {
-        await fetchArtistDetails(id);
-        setIsLoading(false);
-      } catch (error) {
-        console.error('Error fetching artist details:', error);
-      }
-    };
-    fetchDetails();
-  }, [id, fetchArtistDetails]);
+    fetchMusicArtistDetails();
+  }, [id]);
 
   return (
     <div>
@@ -30,9 +34,24 @@ const ArtistDetailsView: React.FC = () => {
         <Spinner />
       ) : (
         <>
-          {artist.map((artist: Artist) => (
+          <h2>Artist Details</h2>
+          {artist.map((artist: Artist) =>
             <ArtistDetails artist={artist} />
-          ))}
+          )}
+          {isLoading ? (
+            <Spinner />
+          ) : (
+            <>
+              <h2 style={{ marginTop: '3rem'}}>Similar Artists</h2>
+              <Grid container spacing={3} sx={{ mt: 0 }} role="list">
+                {similarArtists.map((artist: Artist) =>
+                  <Grid item xs={5} sm={3} md={2} role="listitem">
+                    <ArtistItem artist={artist} />
+                  </Grid>
+                )}
+              </Grid>
+            </>
+          )}
         </>
       )}
     </div>

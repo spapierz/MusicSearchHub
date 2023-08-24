@@ -16,10 +16,11 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
     const [searchQuery, setSearchQuery] = useState('');
     const [genres, setGenres] = useState<Genre[]>([]);
     const [artist, setArtist] = useState<Artist[]>([]);
+    const [similarArtists, setSimilarArtists] = useState<Artist[]>([]);
 
   const API_BASE_URL = 'https://music.musicaudience.info/api/v1/music';
   const API_KEY = '5db48e1f3a0a4580bad47849f1317bd0';
-  
+
   const fetchGenres = async (query: string): Promise<Genre[]> => {
     const url = `${API_BASE_URL}/genres?q=${query}`;
     const response = await axios.get(url, {
@@ -64,7 +65,7 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
   }, []);
 
   const fetchArtistDetails = async (
-    id?: string,
+    id: string,
   ): Promise<Artist[]> => {
       const url = `${API_BASE_URL}/artists/${id}`;
       const { data: { data } } = await axios.get(url, {
@@ -82,6 +83,26 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
       }
       return data as Artist[];
   };
+
+  const fetchSimilarArtists = useCallback(async (
+    id: string
+  ): Promise<Artist[]> => {
+    const url = `${API_BASE_URL}/artists/${id}/similar`;
+
+    const { data: { data } } = await axios.get(url, {
+      params: {
+        apikey: API_KEY,
+      },
+    });
+
+    if (data.length) {
+      setSimilarArtists(data as Artist[]);
+    }
+    if (!data) {
+      throw new Error('Error connecting to the API');
+    }
+    return data as Artist[];
+  }, []);
 
   // Load favorites from local storage
   useEffect(() => {
@@ -124,13 +145,15 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
           fetchGenres,
           fetchArtists,
           fetchArtistDetails,
+          fetchSimilarArtists,
           searchQuery,
           isFavoritesPage,
           favorites,
           addToFavorites,
-          removeFromFavorites
+          removeFromFavorites,
+          similarArtists
       }),
-      [genres, setGenres, artist, setArtist, pageTitle, fetchGenres, fetchArtists, fetchArtistDetails, searchQuery, isFavoritesPage, favorites, addToFavorites, removeFromFavorites]
+      [genres, setGenres, artist, similarArtists, fetchSimilarArtists, setArtist, pageTitle, fetchGenres, fetchArtists, fetchArtistDetails, searchQuery, isFavoritesPage, favorites, addToFavorites, removeFromFavorites]
   );
 
   return (
