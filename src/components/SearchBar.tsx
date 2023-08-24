@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { TextField, Autocomplete } from '@mui/material';
 import { MusicContext } from '../context/MusicContext';
 import { useLocation, useHistory } from 'react-router-dom';
@@ -43,14 +43,9 @@ const SearchBar = () => {
     }
   };
 
-  const fetchAndFilterGenres = useCallback((value: string) => {
-    const res = fetchGenres(value);
-    return res;
-  }, [currentPathName]);
-
   const handleSearch = (value: string) => {
     setSearchValue(value);
-    fetchAndFilterGenres(value);
+    fetchGenres(value);
   };
 
   const uniqueGenres = useMemo(() => {
@@ -65,7 +60,11 @@ const SearchBar = () => {
     }
   
     return uniqueGenresArray;
-  }, [genres]);  
+  }, [genres]);
+
+  useEffect(() => {
+    fetchGenres(); // Load genres initially
+  }, []);
 
   return (
     <>

@@ -21,7 +21,7 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
   const API_BASE_URL = 'https://music.musicaudience.info/api/v1/music';
   const API_KEY = '5db48e1f3a0a4580bad47849f1317bd0';
 
-  const fetchGenres = async (query: string): Promise<Genre[]> => {
+  const fetchGenres = async (query?: string): Promise<Genre[]> => {
     const url = `${API_BASE_URL}/genres?q=${query}`;
     const response = await axios.get(url, {
       params: {
@@ -56,7 +56,6 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
 
     if (data.length) {
       setArtist(data as Artist[]);
-      setGenres(genres as Genre[]); // Reset genres when fetching artists
     }
     if (!data) {
         throw new Error('Error connecting to the API');
@@ -76,7 +75,6 @@ export const MusicContext = createContext<MusicContextData>({} as MusicContextDa
 
       if (data?.length) {
         setArtist(data as Artist[]);
-        setGenres([]); // Reset genres when fetching artist details
       }
       if (!data) {
         throw new Error('Error connecting to the API');

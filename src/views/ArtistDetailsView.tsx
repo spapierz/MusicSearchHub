@@ -42,7 +42,7 @@ const ArtistDetailsView: React.FC = () => {
             <Spinner />
           ) : (
             <>
-              <h2 style={{ marginTop: '3rem'}}>Similar Artists</h2>
+              <h2 style={{ marginTop: '3rem', marginBottom: 0 }}>Similar Artists</h2>
               <Grid container spacing={3} sx={{ mt: 0 }} role="list">
                 {similarArtists.map((artist: Artist) =>
                   <Grid item xs={5} sm={3} md={2} role="listitem">
