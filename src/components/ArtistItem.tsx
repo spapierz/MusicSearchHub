@@ -40,19 +40,29 @@ export const ArtistItem: React.FC<MusicItemProps> = ({ artist }) => {
   };
 
   return (
-    <Grid container sx={{ position: 'relative', cursor: 'pointer' }} role="list">
-      <picture style={{ position: 'relative', display: 'block' }}>
-        <source
-          type="image/webp"
-          srcSet={`${artist.image ? artist.image.replace(/\.(jpg|jpeg|png)$/, '.webp') : ''}`}
-        />
+    <>
+    <div
+      style={{
+        position: 'relative',
+        cursor: 'pointer',
+        display: 'grid',
+        gridTemplateColumns: 'auto 1fr',
+      }}
+      role="list"
+    >
+      <picture
+        style={{
+          position: 'relative',
+          display: 'block',
+        }}
+      >
         <img
           src={artist.image ? artist.image.replace(/\.(jpg|jpeg|png)$/, '.webp') : logo}
           alt={artist.name}
           className={`blurred-image ${imageLoaded ? 'loaded-image' : ''}`}
           style={{
-            height: '229px',
-            width: '180px',
+            height: '240px',
+            width: '100%',
             objectFit: 'cover',
             borderRadius: '10px',
             position: 'relative',
@@ -62,12 +72,13 @@ export const ArtistItem: React.FC<MusicItemProps> = ({ artist }) => {
           }}
           sizes="(max-width: 600px) 100vw, 50vw"
           onClick={handleImageClick}
-          width='180px'
-          height='229px'
+          width='100%'
+          height='240px'
           loading="lazy"
           onLoad={handleImageLoaded}
         />
       </picture>
+    </div>
 
       <Grid item style={{
         position: 'absolute',
@@ -108,7 +119,7 @@ export const ArtistItem: React.FC<MusicItemProps> = ({ artist }) => {
           {artist.name}
         </Typography>
       </Grid>
-    </Grid>
+    </>
   );
 };
 
