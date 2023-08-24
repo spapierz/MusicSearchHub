@@ -7,13 +7,6 @@ const containerStyles = {
   alignItems: 'center',  // Align items vertically in the middle
 }
 
-const logoStyles = {
-  width: '10rem',
-  height: 'auto',
-  padding: '3rem 0 2rem 0',
-  cursor: 'pointer'
-}
-
 const Header: React.FC = () => {
   const history = useHistory();
   const logo = '/images/genreGaze-logo.png';
@@ -30,7 +23,7 @@ const Header: React.FC = () => {
         style={{
           maxWidth: '150px',
           height: 'auto',
-          padding: '3rem 0px 2rem',
+          padding: '4rem 0px 2rem',
           cursor: 'pointer'
         }}
       />
