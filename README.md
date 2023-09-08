@@ -1,6 +1,6 @@
-# GenreGaze Music App
+# MusicSearchHub
 
-Welcome to **GenreGaze**, a modern and edgy music discovery app that allows users to explore and discover artists based on different genres.
+Welcome to **MusicSearchHub**, a modern and edgy music discovery app that allows users to explore and discover artists based on different genres.
 
 ## Table of Contents
 
